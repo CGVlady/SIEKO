@@ -45420,27 +45420,13 @@ const o3 = [1, 2.25, 3.25],
     tryFrom: 0,
     settled: !1,
   },
-  c3 = "omega.halfRate",
-  ZV = 7,
   HV = 3e3,
-  QV = (() => {
-    if (ne) return !1;
-    try {
-      const s = Number(localStorage.getItem(c3));
-      return s > 0 && Date.now() - s < ZV * 864e5;
-    } catch {
-      return !1;
-    }
-  })(),
   h3 = 6e4,
   rm = (s) => {
-    if ((($.settled = s), !(Br && performance.now() - Br.ended < h3)))
-      try {
-        s && localStorage.setItem(c3, String(Date.now()));
-      } catch {}
+    $.settled = s;
   };
 let Xf = -1e9;
-QV ? Object.assign($, { on: !0, until: 1 / 0, settled: !0 }) : ne || Object.assign($, { on: !0, beats: 2, until: performance.now() + HV });
+ne || Object.assign($, { on: !0, beats: 2, until: performance.now() + HV });
 const XV = 2e3,
   om = (s, t) => Object.assign($, { at: s, late: 0, plain: 0, n: 0, sum: 0, mean: 0, runs: 0, every: t, from: Zt.scale, judged: J0() }),
   dl = () => !ne && $.hold > $.left,
