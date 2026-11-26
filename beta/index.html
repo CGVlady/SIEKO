@@ -45899,7 +45899,7 @@ const FC = () => {
 };
 rj(), oj();
 const ni = new dj(),
-  Os = ni ? new CC("V49.58", () => ni.report()) : null;
+  Os = ni ? new CC("V49.59", () => ni.report()) : null;
 ni && Os && ((ni.onTest = (A, t) => Os.test(A, t)), (ni.status = () => Os.status), Os.offline && (ni.copy = () => Os.copy()));
 const Jv = { scene: { n: 0 }, wall: { n: 0 } },
   _v = (A, t) => {
@@ -46401,6 +46401,14 @@ const N4 = 2e3,
     return A;
   },
   B4 = (A, t) => {
+    const __pg = (st ? st.mode : "") + "|" + eA.page;
+    __pg !== tt.page &&
+      (tt.page !== void 0 &&
+        !ne &&
+        tt.settled &&
+        (x0(!1), (tt.until = Math.min(tt.until, t)), Io(`half: page ${__pg}, judged afresh`)),
+      (tt.fails = 0),
+      (tt.page = __pg));
     Gt.running
       ? Object.assign(tt, { on: !1, beats: 2, back: 0, hold: 0 })
       : tt.settled && !tt.on && !ne && Object.assign(tt, { on: !0, beats: 2, until: 1 / 0, back: 0, hold: 0 });

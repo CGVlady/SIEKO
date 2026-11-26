@@ -45440,6 +45440,14 @@ const XV = 2e3,
     return s;
   },
   YV = (s, t) => {
+    const __pg = (rt ? rt.mode : "") + "|" + ts.page;
+    __pg !== $.page &&
+      ($.page !== void 0 &&
+        !ne &&
+        $.settled &&
+        (rm(!1), ($.until = Math.min($.until, t)), Ro(`half: page ${__pg}, judged afresh`)),
+      ($.fails = 0),
+      ($.page = __pg));
     Lt.running
       ? Object.assign($, { on: !1, beats: 2, back: 0, hold: 0 })
       : $.settled && !$.on && !ne && Object.assign($, { on: !0, beats: 2, until: 1 / 0, back: 0, hold: 0 });
