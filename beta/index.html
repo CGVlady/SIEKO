@@ -45963,7 +45963,7 @@ const FC = () => {
 };
 rj(), oj();
 const ni = new dj(),
-  Os = ni ? new CC("V49.67", () => ni.report()) : null;
+  Os = ni ? new CC("V49.68", () => ni.report()) : null;
 ni && Os && ((ni.onTest = (A, t) => Os.test(A, t)), (ni.status = () => Os.status), Os.offline && (ni.copy = () => Os.copy()));
 const Jv = { scene: { n: 0 }, wall: { n: 0 } },
   _v = (A, t) => {
@@ -46478,6 +46478,8 @@ const N4 = 2e3,
     return A;
   },
   B4 = (A, t) => {
+    !ne && !Ye.on && tt.on && tt.beats > 2 && Qe.every * tt.beats * Qe.beat > 1e3 / 30 + 0.5 &&
+      ((tt.beats = Math.max(2, Math.round(1e3 / 30 / (Qe.every * Qe.beat)))), Io(`half: moving, back to 30 a second`));
     const __pg = (st ? st.mode : "") + "|" + eA.page;
     __pg !== tt.page &&
       (tt.page !== void 0 &&
@@ -46595,6 +46597,7 @@ const N4 = 2e3,
     }
     const v = Math.max(1, e.every);
     ne ||
+      (!Ye.on && (n + v) * e.beat > 1e3 / 30 + 0.5) /* __mv30 */ ||
       (n + v) * e.beat > Ps.most * Ve + 0.5 ||
       ((tt.fails = x ? Math.min(tt.fails + 1, 3) : 0),
       Object.assign(tt, { on: !0, beats: Math.round(n / v) + 1, until: t + Ar.after * 2 ** tt.fails, hold: 0, back: 0 }),
