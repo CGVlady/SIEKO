@@ -45516,7 +45516,7 @@ const XV = 2e3,
     for (let t = $.back; t; t >>= 1) s += t & 1;
     return s;
   },
-  __br = { stuck: 0, done: 0, next: 0, until: 0, fine: !1, end: 0, told: 1, fails: 0, pending: 0, why: "" },
+  __br = { stuck: 0, done: 0, next: 0, until: 0, fine: !1, end: 0, told: 1, fails: 0, pending: 0, why: "", run: 0, back: -1e9 },
   YV = (s, t) => {
     if (__br.until) {
       if (t < __br.until) return;
@@ -45542,6 +45542,7 @@ const XV = 2e3,
         $.settled &&
         (rm(!1), ($.until = Math.min($.until, t)), Ro(`half: page ${__pg}, judged afresh`)),
       ($.fails = 0),
+      ts.page === "home" && (__br.back = t),
       ($.page = __pg));
     Lt.running
       ? Object.assign($, { on: !1, beats: 2, back: 0, hold: 0 })
@@ -45593,6 +45594,18 @@ const XV = 2e3,
     if (ne && $.on) return;
     $.n++;
     const i = e.every > 1 && n > e.every ? e.every - 0.55 : 0.45;
+    (__br.run = s > (n + i) * e.beat ? __br.run + 1 : 0),
+      __br.run >= 10 &&
+        __br.fine &&
+        !ne &&
+        !je.on &&
+        !Lt.running &&
+        t - __br.back < 4e3 &&
+        n * e.beat > 1e3 / 30 - 1 &&
+        __br.fails < 2 &&
+        t >= __br.next &&
+        !__br.pending &&
+        ((__br.pending = t), (__br.why = `${__br.run} late in a row after the watch page`));
     if (
       (s > (n + i) * e.beat && $.late++,
       s > (n + br.beats) * e.beat && $.plain++,
