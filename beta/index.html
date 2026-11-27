@@ -45949,7 +45949,7 @@ const FC = () => {
 };
 rj(), oj();
 const ni = new dj(),
-  Os = ni ? new CC("V49.64", () => ni.report()) : null;
+  Os = ni ? new CC("V49.65", () => ni.report()) : null;
 ni && Os && ((ni.onTest = (A, t) => Os.test(A, t)), (ni.status = () => Os.status), Os.offline && (ni.copy = () => Os.copy()));
 const Jv = { scene: { n: 0 }, wall: { n: 0 } },
   _v = (A, t) => {
@@ -46630,7 +46630,7 @@ const D4 = 400,
   br = () => {
     const A = Qe,
       t = tt.on ? A.every * tt.beats : Gt.running ? A.every : me.beats;
-    return ne && A.beat >= Ve * 1.6 ? 1 : Ye.on ? Math.max(t, Math.round(1e3 / 30 / A.beat)) : t;
+    return ne && A.beat >= Ve * 1.6 ? 1 : Ye.on ? Math.max(t, Math.round(1e3 / (!ne && Ye.quiet > 5 ? 20 : 30) / A.beat)) : t;
   };
 let fg = !0;
 const pg = { y: 0 };

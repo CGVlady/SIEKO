@@ -45668,7 +45668,7 @@ const tB = 400,
   ga = () => {
     const s = ke,
       t = $.on ? s.every * $.beats : Lt.running ? s.every : me.beats;
-    return ne && s.beat >= Ze * 1.6 ? 1 : je.on ? Math.max(t, Math.round(1e3 / 30 / s.beat)) : t;
+    return ne && s.beat >= Ze * 1.6 ? 1 : je.on ? Math.max(t, Math.round(1e3 / (!ne && je.quiet > 5 ? 20 : 30) / s.beat)) : t;
   };
 let _0 = !0;
 const $0 = { y: 0 };
