@@ -34392,7 +34392,7 @@ varying vec3 vDialL;`,
   ku = (A, t) =>
     (t === xx && A.same) || t === 2 ? (A.l2 ?? A.l1 ?? A.hi) : (t === 1 && !A.chain) || (gx && A.heavy) ? (A.l1 ?? A.hi) : A.hi,
   $5 = Math.cos((18 * Math.PI) / 180),
-  __HF = ["Plane004", "Cylinder003", "Cylinder002", "Cylinder019", "Cylinder021", "windowWall", "Cylinder004", "Cylinder012", "Object004", "escBridge:screw", "Shape001", "escRoller:polished", "caseback_glass", "Cylinder014", "Cylinder030", "Box001"],
+  __HF = ["Plane004", "Cylinder003", "Cylinder002", "Cylinder019", "Cylinder021", "windowWall", "Cylinder004", "Object004", "escBridge:screw", "Shape001", "escRoller:polished", "caseback_glass", "Cylinder014", "Cylinder030", "Box001"],
   __HSL = ["windowWall", "mesh_60_1"],
   __HFc = [0.383, -0.253, 0.888].map((v, i, a) => v / Math.hypot(...a)),
   __HSc = [-0.003, -0.0625, 0.998].map((v, i, a) => v / Math.hypot(...a)),
@@ -36028,7 +36028,7 @@ class Hs {
     for (const z of this.caseback) z.visible &&= l || h < $5;
     const f = u > 1e-6 ? this.eyeIn.copy(this.toEye).applyQuaternion(this.qBack.copy(this.q).invert()).dot(eU) / u : 0,
       m = this.row && !l && f > nU;
-    if (de === "phone") {
+    if (de === "phone" || ne) {
       const __e = this.eyeIn,
         __d = (c) => (u > 1e-6 ? (__e.x * c[0] + __e.y * c[1] + __e.z * c[2]) / u : 0),
         __k = !this.rest || l ? 0
@@ -45935,7 +45935,7 @@ const FC = () => {
 };
 rj(), oj();
 const ni = new dj(),
-  Os = ni ? new CC("V49.61", () => ni.report()) : null;
+  Os = ni ? new CC("V49.62", () => ni.report()) : null;
 ni && Os && ((ni.onTest = (A, t) => Os.test(A, t)), (ni.status = () => Os.status), Os.offline && (ni.copy = () => Os.copy()));
 const Jv = { scene: { n: 0 }, wall: { n: 0 } },
   _v = (A, t) => {
@@ -45944,7 +45944,15 @@ const Jv = { scene: { n: 0 }, wall: { n: 0 } },
     return (t.n = e.length), n;
   },
   VC = 4e3,
-  Q = new zj(As("#gl")),
+  Q = (() => {
+    try {
+      return new zj(As("#gl"));
+    } catch (e) {
+      const d = document.createElement("div");
+      d.setAttribute("role", "alert"), (d.style.cssText = "position:fixed;inset:0;z-index:2147483647;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:32px;background:#08080a;color:#f1f1f1;font:15px/1.5 -apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;text-align:center"), (d.innerHTML = '<p style="margin:0;font-size:12px;letter-spacing:.32em">SEIKO &middot; CONCEPT</p><p style="margin:0;max-width:26em;color:rgba(241,241,241,.72)">This browser could not start 3D graphics. Open the site in Safari, Chrome or Firefox with hardware acceleration on.</p><p style="margin:0;font-size:11px;letter-spacing:.32em;color:rgba(241,241,241,.45)">MADE BY: VLADYONE</p>'), document.body.appendChild(d);
+      throw e;
+    }
+  })(),
   BP = () => (de === "phone" ? (C.phoneBlurPre ?? 0) : (C.blurPre ?? 0));
 Q.lens.blurPre = BP();
 const Sa = new fH(Q.renderer.getContext());

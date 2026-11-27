@@ -33580,7 +33580,7 @@ varying vec3 vDialL;`,
   Uu = (s, t) =>
     (t === Jg && s.same) || t === 2 ? (s.l2 ?? s.l1 ?? s.hi) : (t === 1 && !s.chain) || (Yg && s.heavy) ? (s.l1 ?? s.hi) : s.hi,
   MN = Math.cos((18 * Math.PI) / 180),
-  __HF = ["Plane004", "Cylinder003", "Cylinder002", "Cylinder019", "Cylinder021", "windowWall", "Cylinder004", "Cylinder012", "Object004", "escBridge:screw", "Shape001", "escRoller:polished", "caseback_glass", "Cylinder014", "Cylinder030", "Box001"],
+  __HF = ["Plane004", "Cylinder003", "Cylinder002", "Cylinder019", "Cylinder021", "windowWall", "Cylinder004", "Object004", "escBridge:screw", "Shape001", "escRoller:polished", "caseback_glass", "Cylinder014", "Cylinder030", "Box001"],
   __HSL = ["windowWall", "mesh_60_1"],
   __HFc = [0.383, -0.253, 0.888].map((v, i, a) => v / Math.hypot(...a)),
   __HSc = [-0.003, -0.0625, 0.998].map((v, i, a) => v / Math.hypot(...a)),
@@ -35216,7 +35216,7 @@ class Rr {
     for (const V of this.caseback) V.visible &&= h || f < MN;
     const p = u > 1e-6 ? this.eyeIn.copy(this.toEye).applyQuaternion(this.qBack.copy(this.q).invert()).dot(SN) / u : 0,
       A = this.row && !h && p > EN;
-    if (de === "phone") {
+    if (de === "phone" || ne) {
       const __e = this.eyeIn,
         __d = (c) => (u > 1e-6 ? (__e.x * c[0] + __e.y * c[1] + __e.z * c[2]) / u : 0),
         __k = !this.rest || h ? 0
@@ -44984,7 +44984,15 @@ const Br = e3 ? new OD() : null,
     return (t.n = e.length), n;
   },
   hV = 4e3,
-  k = new rO(nr("#gl")),
+  k = (() => {
+    try {
+      return new rO(nr("#gl"));
+    } catch (e) {
+      const d = document.createElement("div");
+      d.setAttribute("role", "alert"), (d.style.cssText = "position:fixed;inset:0;z-index:2147483647;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:32px;background:#08080a;color:#f1f1f1;font:15px/1.5 -apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;text-align:center"), (d.innerHTML = '<p style="margin:0;font-size:12px;letter-spacing:.32em">SEIKO &middot; CONCEPT</p><p style="margin:0;max-width:26em;color:rgba(241,241,241,.72)">This browser could not start 3D graphics. Open the site in Safari, Chrome or Firefox with hardware acceleration on.</p><p style="margin:0;font-size:11px;letter-spacing:.32em;color:rgba(241,241,241,.45)">MADE BY: VLADYONE</p>'), document.body.appendChild(d);
+      throw e;
+    }
+  })(),
   n3 = () => (de === "phone" ? (L.phoneBlurPre ?? 0) : (L.blurPre ?? 0));
 k.lens.blurPre = n3();
 const wl = new B5(k.renderer.getContext());
