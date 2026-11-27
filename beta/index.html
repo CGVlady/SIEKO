@@ -45963,7 +45963,7 @@ const FC = () => {
 };
 rj(), oj();
 const ni = new dj(),
-  Os = ni ? new CC("V49.69", () => ni.report()) : null;
+  Os = ni ? new CC("V49.70", () => ni.report()) : null;
 ni && Os && ((ni.onTest = (A, t) => Os.test(A, t)), (ni.status = () => Os.status), Os.offline && (ni.copy = () => Os.copy()));
 const Jv = { scene: { n: 0 }, wall: { n: 0 } },
   _v = (A, t) => {
@@ -46477,7 +46477,12 @@ const N4 = 2e3,
     for (let t = tt.back; t; t >>= 1) A += t & 1;
     return A;
   },
+  __br = { stuck: 0, done: 0, next: 0, until: 0, fine: !1 },
   B4 = (A, t) => {
+    if (__br.until) {
+      if (t < __br.until) return;
+      (__br.until = 0), b0(t, br()), Vt.again();
+    }
     !ne && tt.on && tt.beats > 2 && Qe.every * tt.beats * Qe.beat > 1e3 / (Ye.on ? 20 : 30) + 0.5 &&
       ((tt.beats = Math.max(2, Math.round(1e3 / (Ye.on ? 20 : 30) / (Qe.every * Qe.beat)))), Io(`half: back to ${Ye.on ? 20 : 30} a second`));
     const __pg = (st ? st.mode : "") + "|" + eA.page;
@@ -46565,6 +46570,15 @@ const N4 = 2e3,
       Io(
         `judged every ${n}: late ${tt.late}/${tt.n}, plain ${tt.plain}, past ${o.toFixed(2)}${f ? ", go" : ""}${u ? "" : ", slower rhythm"}${s ? ", floor" : ""}${qi ? ", busy" : ""}${nc ? "" : ", veil"}${he.on && !Zl() ? ", untouched" : ""}, runs ${tt.runs}`,
       );
+    !ne && !Ye.on && !Gt.running && Math.abs(n * e.beat - 1e3 / 30) < 1 && tt.late <= tt.n * 0.15 && (__br.fine = !0);
+    if (__br.fine && !ne && !Ye.on && !Gt.running && n * e.beat > 1e3 / 30 - 1 && tt.late >= tt.n * 0.9 && o >= 0.9) {
+      if (++__br.stuck >= 2 && __br.done < 3 && t >= __br.next) {
+        const d = [300, 600, 1e3][__br.done++];
+        Object.assign(__br, { until: t + d, next: t + d + 8e3, stuck: 0 }),
+          Io(`breath: 3D held ${d} ms, ${tt.late} of ${tt.n} late at ${Math.round(1e3 / (n * e.beat))} a second`);
+        return;
+      }
+    } else __br.stuck = 0;
     const m = !ne && t - tt.left < 6e3 && n === tt.leftEvery;
     f && u && (tt.keep = tt.back & (2 ** (Ps.back - 1) - 1) || m ? Math.max(tt.keep, tt.from) : tt.from),
       u || (tt.keep = Math.min(tt.keep, Vt.scale)),
@@ -46606,6 +46620,7 @@ const N4 = 2e3,
   Ad = { after: 5e3, trial: 500, late: 0.1 },
   me = { beats: 1, next: 0, fails: 0, trial: 0, late: 0, n: 0 },
   O4 = (A, t) => {
+    if (t < __br.until) return;
     if (Ye.on || Gt.running || qi) {
       me.trial && me.beats++, (me.trial = 0);
       return;
@@ -46744,7 +46759,7 @@ const G4 = () => {
         u = Math.max(1, Q.view.vh);
       Q.lens.loupe.set(c.x / l, 1 - c.y / u, c.r / u, c.zoom);
     }
-    if ((Sa.begin(), Gt.scene)) {
+    if ((Sa.begin(), Gt.scene && !(performance.now() < __br.until))) {
       const c = Gt.oneDraw ? st : null;
       c && v4(c);
       const l = !Gt.movement && st ? st.watches[st.active].object : null;
