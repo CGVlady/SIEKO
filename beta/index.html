@@ -45963,7 +45963,7 @@ const FC = () => {
 };
 rj(), oj();
 const ni = new dj(),
-  Os = ni ? new CC("V49.70", () => ni.report()) : null;
+  Os = ni ? new CC("V49.71", () => ni.report()) : null;
 ni && Os && ((ni.onTest = (A, t) => Os.test(A, t)), (ni.status = () => Os.status), Os.offline && (ni.copy = () => Os.copy()));
 const Jv = { scene: { n: 0 }, wall: { n: 0 } },
   _v = (A, t) => {
@@ -46477,11 +46477,22 @@ const N4 = 2e3,
     for (let t = tt.back; t; t >>= 1) A += t & 1;
     return A;
   },
-  __br = { stuck: 0, done: 0, next: 0, until: 0, fine: !1 },
+  __br = { stuck: 0, done: 0, next: 0, until: 0, fine: !1, end: 0, told: 1, fails: 0, pending: 0, why: "" },
   B4 = (A, t) => {
     if (__br.until) {
       if (t < __br.until) return;
       (__br.until = 0), b0(t, br()), Vt.again();
+    }
+    if (__br.pending) {
+      const still = !!st && qP(st),
+        w = t - __br.pending;
+      if (still || w >= 2e3) {
+        const d = __br.fails ? 600 : 300;
+        __br.done++,
+          Object.assign(__br, { until: t + d, end: t + d, next: t + d + 8e3, stuck: 0, told: 0, pending: 0 }),
+          Io(`breath: 3D held ${d} ms ${still ? "at a still moment" : "in motion"} ${Math.round(w)} ms after, ${__br.why}`);
+        return;
+      }
     }
     !ne && tt.on && tt.beats > 2 && Qe.every * tt.beats * Qe.beat > 1e3 / (Ye.on ? 20 : 30) + 0.5 &&
       ((tt.beats = Math.max(2, Math.round(1e3 / (Ye.on ? 20 : 30) / (Qe.every * Qe.beat)))), Io(`half: back to ${Ye.on ? 20 : 30} a second`));
@@ -46572,13 +46583,16 @@ const N4 = 2e3,
       );
     !ne && !Ye.on && !Gt.running && Math.abs(n * e.beat - 1e3 / 30) < 1 && tt.late <= tt.n * 0.15 && (__br.fine = !0);
     if (__br.fine && !ne && !Ye.on && !Gt.running && n * e.beat > 1e3 / 30 - 1 && tt.late >= tt.n * 0.9 && o >= 0.9) {
-      if (++__br.stuck >= 2 && __br.done < 3 && t >= __br.next) {
-        const d = [300, 600, 1e3][__br.done++];
-        Object.assign(__br, { until: t + d, next: t + d + 8e3, stuck: 0 }),
-          Io(`breath: 3D held ${d} ms, ${tt.late} of ${tt.n} late at ${Math.round(1e3 / (n * e.beat))} a second`);
-        return;
-      }
-    } else __br.stuck = 0;
+      ++__br.stuck >= 2 &&
+        !__br.told &&
+        t - __br.end < 4e3 &&
+        ((__br.told = 1), __br.fails++, Io(`breath: no help${__br.fails >= 2 ? " twice, no more breaths this visit" : ""}`));
+      __br.stuck >= 2 &&
+        __br.fails < 2 &&
+        t >= __br.next &&
+        !__br.pending &&
+        ((__br.pending = t), (__br.why = `${tt.late} of ${tt.n} late at ${Math.round(1e3 / (n * e.beat))} a second`));
+    } else (__br.stuck = 0), (__br.pending = 0), !__br.told && t - __br.end >= 4e3 && ((__br.told = 1), (__br.fails = 0));
     const m = !ne && t - tt.left < 6e3 && n === tt.leftEvery;
     f && u && (tt.keep = tt.back & (2 ** (Ps.back - 1) - 1) || m ? Math.max(tt.keep, tt.from) : tt.from),
       u || (tt.keep = Math.min(tt.keep, Vt.scale)),
