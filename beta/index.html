@@ -34392,8 +34392,11 @@ varying vec3 vDialL;`,
   ku = (A, t) =>
     (t === xx && A.same) || t === 2 ? (A.l2 ?? A.l1 ?? A.hi) : (t === 1 && !A.chain) || (gx && A.heavy) ? (A.l1 ?? A.hi) : A.hi,
   $5 = Math.cos((18 * Math.PI) / 180),
-  __HF = ["Plane004", "Cylinder003", "Cylinder002", "Cylinder019", "Cylinder021", "windowWall", "Cylinder004", "Object004", "escBridge:screw", "Shape001", "escRoller:polished", "caseback_glass", "Cylinder014", "Cylinder030", "Box001"],
-  __HSL = ["windowWall", "mesh_60_1"],
+  __HLF = [],
+  __HLL = ["windowCeiling"],
+  __HLr = Math.cos((5 * Math.PI) / 180),
+  __HF = ["Cylinder002", "escBridge:screw", "Shape001", "caseback_glass", "Cylinder014", "Cylinder030", "Box001"],
+  __HSL = [],
   __HFc = [0.383, -0.253, 0.888].map((v, i, a) => v / Math.hypot(...a)),
   __HSc = [-0.003, -0.0625, 0.998].map((v, i, a) => v / Math.hypot(...a)),
   __HFr = Math.cos((6 * Math.PI) / 180),
@@ -35639,6 +35642,8 @@ class Hs {
   rest = !1;
   hideList = [];
   hideNow = 0;
+  lineRest = !1;
+  lineEye = null;
   track;
   rotorAngle = 0;
   crown;
@@ -36028,15 +36033,19 @@ class Hs {
     for (const z of this.caseback) z.visible &&= l || h < $5;
     const f = u > 1e-6 ? this.eyeIn.copy(this.toEye).applyQuaternion(this.qBack.copy(this.q).invert()).dot(eU) / u : 0,
       m = this.row && !l && f > nU;
-    if (de === "phone" || ne) {
+    {
       const __e = this.eyeIn,
         __d = (c) => (u > 1e-6 ? (__e.x * c[0] + __e.y * c[1] + __e.z * c[2]) / u : 0),
-        __k = !this.rest || l ? 0
+        __line = de !== "phone" && this.lineRest && !l && u > 1e-6;
+      __line ? this.lineEye ??= [__e.x / u, __e.y / u, __e.z / u] : (this.lineEye = null);
+      const __k = __line
+          ? (__d(this.lineEye) > __HLr ? (!this.lo && this.pieceIn <= 0 ? 4 : this.lo && this.pieceIn >= 1 ? 3 : 0) : 0)
+          : !(de === "phone" || ne) || !this.rest || l ? 0
           : this.full ? (__d(__HFc) > __HFr ? 1 : 0)
           : __d(__HSc) > __HSr ? 2 : 0;
       if (__k !== this.hideNow) {
         for (const z of this.hideList) z.layers.enable(0);
-        this.hideList = __k ? __hideMeshes((n) => this.object.getObjectByName(n), __k === 1 ? __HF : __HSL) : [];
+        this.hideList = __k ? __hideMeshes((n) => this.object.getObjectByName(n), [null, __HF, __HSL, __HLL, __HLF][__k]) : [];
         for (const z of this.hideList) z.layers.disable(0);
         this.hideNow = __k;
       }
@@ -36858,6 +36867,11 @@ class e7 {
           this.mode === "detail"
             ? f.index === this.detail?.active && ((this.detail?.lineup ?? 0) < 0.5 || f.size > f.to.scale * 1.25)
             : f.index === this.active),
+        (f.lineRest =
+          this.mode === "detail" &&
+          (this.detail?.lineup ?? 0) > 0.999 &&
+          f.object.position.distanceTo(f.to.pos) < f.size * 0.15 &&
+          Math.abs(f.size - f.to.scale) < f.to.scale * 0.03),
         (f.rest =
           this.mode === "home" &&
           f.object.position.distanceTo(f.to.pos) < f.size * 0.03 &&
@@ -45949,7 +45963,7 @@ const FC = () => {
 };
 rj(), oj();
 const ni = new dj(),
-  Os = ni ? new CC("V49.65", () => ni.report()) : null;
+  Os = ni ? new CC("V49.66", () => ni.report()) : null;
 ni && Os && ((ni.onTest = (A, t) => Os.test(A, t)), (ni.status = () => Os.status), Os.offline && (ni.copy = () => Os.copy()));
 const Jv = { scene: { n: 0 }, wall: { n: 0 } },
   _v = (A, t) => {
