@@ -36518,6 +36518,9 @@ class e7 {
   get vertical() {
     return this.spacing().vertical;
   }
+  lineStep(t) {
+    this.lineView = Math.max(0, Math.min(this.count - 1, (this.lineView ?? 0) + t));
+  }
   swap(t, e) {
     if (t === e) return;
     const n = this.watches[t],
@@ -37175,15 +37178,17 @@ class e7 {
     }
     const i = this.detail;
     if (!i) return;
-    const s = this.count,
+    de === "phone" && ((i.lineup ?? 0) < 0.001 || this.lineView == null) && (this.lineView = i.active);
+    const __lp = de === "phone",
+      s = this.count,
       o = Zt(e.w / e.h / 1.1, 0.55, 1),
-      r = e.w / e.h < 0.8 ? Math.ceil(s / 2) : s,
+      r = __lp ? s : e.w / e.h < 0.8 ? Math.ceil(s / 2) : s,
       a = Math.ceil(s / r),
-      c = Math.min(e.w / (r + 0.4), i.lineupS * e.h * 1.4),
-      l = Math.min(i.lineupS * e.h * (a > 1 ? 1 : o), c * 0.76, (e.h * 0.62) / (a * 2.25)),
+      c = __lp ? e.w * 1.1 : Math.min(e.w / (r + 0.4), i.lineupS * e.h * 1.4),
+      l = __lp ? Math.min(e.w * 0.5, e.h * 0.26) : Math.min(i.lineupS * e.h * (a > 1 ? 1 : o), c * 0.76, (e.h * 0.62) / (a * 2.25)),
       u = t.index % r,
       h = Math.floor(t.index / r),
-      d = (u - (r - 1) / 2) * c,
+      d = (u - (__lp ? this.lineView : (r - 1) / 2)) * c,
       f = i.lineupY * e.h + ((a - 1) / 2 - h) * l * 2.25,
       m = (this.hoverK[t.index] ?? 0) * gt(0.4, 0.6, i.lineup),
       g = gt(0, 1, i.lineup),
@@ -37192,7 +37197,7 @@ class e7 {
       y = Math.floor(i.active / r),
       b = p
         ? Zt(
-            p.object.position.distanceTo(ye.set((x - (r - 1) / 2) * c, i.lineupY * e.h + ((a - 1) / 2 - y) * l * 2.25, 0)) / (l * 1.5),
+            p.object.position.distanceTo(ye.set((x - (__lp ? this.lineView : (r - 1) / 2)) * c, i.lineupY * e.h + ((a - 1) / 2 - y) * l * 2.25, 0)) / (l * 1.5),
             0,
             1,
           ) * gt(0, 0.2, g)
@@ -44597,7 +44602,7 @@ class mC {
 
       <section class="p-sec p-lineup" data-sec="lineup"><div class="p-stick">
         <h2 class="p-code" aria-label="${i.codeLine}, every finish"><span>${i.code[0]}</span><span>${i.code[1]}</span></h2>
-        <p class="p-lineup-hint lbl">Select a finish</p>
+        <p class="p-lineup-hint lbl">${de === "phone" ? "Swipe for each finish · tap to choose" : "Select a finish"}</p>
       </div></section>`),
       (this.el = s),
       (this.frame = { active: t, pose: { ...Dd }, lineup: 0, lineupY: -0.05, lineupS: 0.15, spin: 0 }),
@@ -44630,9 +44635,18 @@ class mC {
       this.q(".p-go").addEventListener("click", () => this.ctx.lenis.scrollTo(0, { duration: 2.4 })),
       this.qa("[data-part]").forEach((e) => e.addEventListener("click", () => this.ctx.onInspect(Number(e.dataset.part)))),
       this.q(".p-lineup").addEventListener("click", (e) => {
+        if (performance.now() - (this.swipedAt ?? -1e9) < 450) return;
         const n = this.ctx.pick(e.clientX, e.clientY);
         n >= 0 && this.ctx.onOpen(n);
       }),
+      de === "phone" &&
+        (this.q(".p-lineup").addEventListener("touchstart", (p) => { const q = p.touches[0]; this.swipe = q ? { x: q.clientX, y: q.clientY } : null; }, { passive: !0 }),
+        this.q(".p-lineup").addEventListener("touchend", (p) => {
+          const w = this.swipe, q = p.changedTouches[0];
+          if (((this.swipe = null), !w || !q || !this.inLineup())) return;
+          const dx = q.clientX - w.x, dy = q.clientY - w.y;
+          Math.abs(dx) > 40 && Math.abs(dx) > 1.5 * Math.abs(dy) && ((this.swipedAt = performance.now()), this.ctx.lineStep?.(dx < 0 ? 1 : -1));
+        }, { passive: !0 })),
       t.addEventListener("pointerdown", (e) => {
         e.pointerType !== "mouse" ||
           e.target.closest("button, a, .p-lineup") ||
@@ -45935,7 +45949,7 @@ const FC = () => {
 };
 rj(), oj();
 const ni = new dj(),
-  Os = ni ? new CC("V49.63", () => ni.report()) : null;
+  Os = ni ? new CC("V49.64", () => ni.report()) : null;
 ni && Os && ((ni.onTest = (A, t) => Os.test(A, t)), (ni.status = () => Os.status), Os.offline && (ni.copy = () => Os.copy()));
 const Jv = { scene: { n: 0 }, wall: { n: 0 } },
   _v = (A, t) => {
@@ -46952,7 +46966,9 @@ const X4 = {
   $4 = 0.35,
   tG = (A, t, e, n) => {
     const i = A.mode === "detail" && oe ? oe.shot : null,
-      s = A.mode === "detail" && A.detail ? A.detail.active : A.active,
+      s = A.mode === "detail" && A.detail
+        ? de === "phone" && (A.detail.lineup ?? 0) > 0.001 && A.lineView != null ? A.lineView : A.detail.active
+        : A.active,
       o = A.mode !== "detail",
       r = o ? ((Math.floor(A.pos) % A.count) + A.count) % A.count : s,
       a = (r + 1) % A.count,
@@ -47373,6 +47389,7 @@ const Dx = async (A) => {
       partsOnPage: rG,
       pick: (s, o) => e.pick(s, o),
       onFinish: aG,
+      lineStep: (d) => st?.lineStep(d),
       onOpen: (s) => (s === n.finish ? void lA.scrollTo(0, { duration: 2.6 }) : ic.go({ page: "watch", i: s })),
       onInspect: (s) => QP(wr[s], kP[s]),
       setCursor: (s, o) => Qn.set(s, o),
