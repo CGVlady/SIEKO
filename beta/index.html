@@ -45962,7 +45962,7 @@ const FC = () => {
 };
 rj(), oj();
 const ni = new dj(),
-  Os = ni ? new CC("V49.77", () => ni.report()) : null;
+  Os = ni ? new CC("V49.78", () => ni.report()) : null;
 ni && Os && ((ni.onTest = (A, t) => Os.test(A, t)), (ni.status = () => Os.status), Os.offline && (ni.copy = () => Os.copy()));
 const Jv = { scene: { n: 0 }, wall: { n: 0 } },
   _v = (A, t) => {
@@ -46545,7 +46545,7 @@ const N4 = 2e3,
     }
     if (
       (tt.on && tt.beats === 2 && Ye.on && !ne && (tt.until += A),
-      tt.on && t > tt.until && (ne || tt.beats > 2 || (t - id < 500 && !tt.settled && E4())))
+      tt.on && t > tt.until && (ne || tt.beats > 2 || (t - id < 500 && !tt.settled && E4() && !qi)))
     ) {
       (tt.left = t),
         (tt.tryFrom = Vt.scale),
