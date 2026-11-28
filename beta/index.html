@@ -45973,7 +45973,7 @@ const FC = () => {
 };
 rj(), oj();
 const ni = new dj(),
-  Os = ni ? new CC("V49.80", () => ni.report()) : null;
+  Os = ni ? new CC("V49.81", () => ni.report()) : null;
 ni && Os && ((ni.onTest = (A, t) => Os.test(A, t)), (ni.status = () => Os.status), Os.offline && (ni.copy = () => Os.copy()));
 const Jv = { scene: { n: 0 }, wall: { n: 0 } },
   _v = (A, t) => {
@@ -46501,10 +46501,10 @@ const N4 = 2e3,
     if (__br.pending) {
       const still = !!st && qP(st),
         w = t - __br.pending;
-      if (still || w >= 2e3) {
+      if (still || w >= 1e3) {
         const d = __br.fails ? 600 : 300;
         __br.done++,
-          Object.assign(__br, { until: t + d, end: t + d, next: t + d + 8e3, stuck: 0, told: 0, pending: 0 }),
+          Object.assign(__br, { until: t + d, end: t + d, next: t + d + 8e3, stuck: 0, told: 0, pending: 0, quick: 0 }),
           Io(`breath: 3D held ${d} ms ${still ? "at a still moment" : "in motion"} ${Math.round(w)} ms after, ${__br.why}`);
         return;
       }
@@ -46581,7 +46581,7 @@ const N4 = 2e3,
         __br.fails < 2 &&
         t >= __br.next &&
         !__br.pending &&
-        ((__br.pending = t), (__br.why = `${__br.run} late in a row after the watch page or a rest`));
+        ((__br.pending = t), (__br.quick = 1), (__br.why = `${__br.run} late in a row after the watch page or a rest`));
     if (
       (A > (n + i) * e.beat && tt.late++,
       A > (n + Ps.beats) * e.beat && tt.plain++,
@@ -46630,8 +46630,8 @@ const N4 = 2e3,
         __br.fails < 2 &&
         t >= __br.next &&
         !__br.pending &&
-        ((__br.pending = t), (__br.why = `${tt.late} of ${tt.n} late at ${Math.round(1e3 / (n * e.beat))} a second`));
-    } else (__br.stuck = 0), (__br.pending = 0), !__br.told && t - __br.end >= 4e3 && ((__br.told = 1), (__br.fails = 0));
+        ((__br.pending = t), (__br.quick = 0), (__br.why = `${tt.late} of ${tt.n} late at ${Math.round(1e3 / (n * e.beat))} a second`));
+    } else (__br.stuck = 0), (!__br.quick || tt.late < tt.n * 0.5) && (__br.pending = 0), !__br.told && t - __br.end >= 4e3 && ((__br.told = 1), (__br.fails = 0));
     const m = !ne && t - tt.left < 6e3 && n === tt.leftEvery;
     f && u && (tt.keep = tt.back & (2 ** (Ps.back - 1) - 1) || m ? Math.max(tt.keep, tt.from) : tt.from),
       u || (tt.keep = Math.min(tt.keep, Vt.scale)),

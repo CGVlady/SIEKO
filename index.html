@@ -45540,10 +45540,10 @@ const XV = 2e3,
     if (__br.pending) {
       const still = !!rt && f3(rt),
         w = t - __br.pending;
-      if (still || w >= 2e3) {
+      if (still || w >= 1e3) {
         const d = __br.fails ? 600 : 300;
         __br.done++,
-          Object.assign(__br, { until: t + d, end: t + d, next: t + d + 8e3, stuck: 0, told: 0, pending: 0 }),
+          Object.assign(__br, { until: t + d, end: t + d, next: t + d + 8e3, stuck: 0, told: 0, pending: 0, quick: 0 }),
           Ro(`breath: 3D held ${d} ms ${still ? "at a still moment" : "in motion"} ${Math.round(w)} ms after, ${__br.why}`);
         return;
       }
@@ -45620,7 +45620,7 @@ const XV = 2e3,
         __br.fails < 2 &&
         t >= __br.next &&
         !__br.pending &&
-        ((__br.pending = t), (__br.why = `${__br.run} late in a row after the watch page or a rest`));
+        ((__br.pending = t), (__br.quick = 1), (__br.why = `${__br.run} late in a row after the watch page or a rest`));
     if (
       (s > (n + i) * e.beat && $.late++,
       s > (n + br.beats) * e.beat && $.plain++,
@@ -45669,8 +45669,8 @@ const XV = 2e3,
         __br.fails < 2 &&
         t >= __br.next &&
         !__br.pending &&
-        ((__br.pending = t), (__br.why = `${$.late} of ${$.n} late at ${Math.round(1e3 / (n * e.beat))} a second`));
-    } else (__br.stuck = 0), (__br.pending = 0), !__br.told && t - __br.end >= 4e3 && ((__br.told = 1), (__br.fails = 0));
+        ((__br.pending = t), (__br.quick = 0), (__br.why = `${$.late} of ${$.n} late at ${Math.round(1e3 / (n * e.beat))} a second`));
+    } else (__br.stuck = 0), (!__br.quick || $.late < $.n * 0.5) && (__br.pending = 0), !__br.told && t - __br.end >= 4e3 && ((__br.told = 1), (__br.fails = 0));
     const A = !ne && t - $.left < 6e3 && n === $.leftEvery;
     p && u && ($.keep = $.back & (2 ** (br.back - 1) - 1) || A ? Math.max($.keep, $.from) : $.from),
       u || ($.keep = Math.min($.keep, Zt.scale)),
