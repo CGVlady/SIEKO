@@ -45557,7 +45557,7 @@ const XV = 2e3,
         $.settled &&
         (rm(!1), ($.until = Math.min($.until, t)), Ro(`half: page ${__pg}, judged afresh`)),
       ($.fails = 0),
-      ts.page === "home" && (__br.back = t),
+      ts.page === "home" && ((__br.back = t), (__br.kind = "page")),
       ($.page = __pg));
     Lt.running
       ? Object.assign($, { on: !1, beats: 2, back: 0, hold: 0 })
@@ -45610,7 +45610,7 @@ const XV = 2e3,
     $.n++;
     const i = e.every > 1 && n > e.every ? e.every - 0.55 : 0.45;
     (__br.run = s > (n + i) * e.beat ? __br.run + 1 : 0),
-      __br.run >= 10 &&
+      __br.run >= (__br.kind === "rest" ? 6 : 10) &&
         __br.fine &&
         !ne &&
         !je.on &&
@@ -45722,15 +45722,15 @@ const XV = 2e3,
       if ((me.n++, s > (me.beats + 0.45) * ke.beat && me.late++, t < me.trial && me.late <= __most * Kf.late)) return;
       t < me.trial && Ro(`stride: try cut, ${me.late} late of ${me.n}`);
       const e = me.late <= me.n * Kf.late;
-      e || (me.beats++, (__br.back = t), (__br.run = 0)), (me.fails = e ? 0 : Math.min(me.fails + 1, 3)), (me.next = t + Kf.after * 2 ** me.fails), (me.trial = 0);
+      e || (me.beats++, (__br.back = t), (__br.run = 0), (__br.kind = "try")), (me.fails = e ? 0 : Math.min(me.fails + 1, 3)), (me.next = t + Kf.after * 2 ** me.fails), (me.trial = 0);
       return;
     }
-    me.beats > ke.every && t >= me.next && Zt.scale >= 1 && (me.beats--, Object.assign(me, { trial: t + Kf.trial, late: 0, n: 0, warm: 4 }));
+    me.beats > ke.every && t >= me.next && Zt.scale >= 1 && !(__br.kind === "rest" && t - __br.back < 3e3) && (me.beats--, Object.assign(me, { trial: t + Kf.trial, late: 0, n: 0, warm: 4 }));
   },
   _V = 2.5,
   je = { on: !1, quiet: 0, next: 0 },
   hv = () => {
-    !ne && je.on && je.quiet > 5 && ((__br.back = performance.now()), (__br.run = 0)),
+    !ne && je.on && je.quiet > 5 && ((__br.back = performance.now()), (__br.run = 0), (__br.kind = "rest")),
       (Xf = performance.now()),
       (je.quiet = 0),
       (je.on = !1);

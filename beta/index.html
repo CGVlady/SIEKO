@@ -45973,7 +45973,7 @@ const FC = () => {
 };
 rj(), oj();
 const ni = new dj(),
-  Os = ni ? new CC("V49.81", () => ni.report()) : null;
+  Os = ni ? new CC("V49.82", () => ni.report()) : null;
 ni && Os && ((ni.onTest = (A, t) => Os.test(A, t)), (ni.status = () => Os.status), Os.offline && (ni.copy = () => Os.copy()));
 const Jv = { scene: { n: 0 }, wall: { n: 0 } },
   _v = (A, t) => {
@@ -46518,7 +46518,7 @@ const N4 = 2e3,
         tt.settled &&
         (x0(!1), (tt.until = Math.min(tt.until, t)), Io(`half: page ${__pg}, judged afresh`)),
       (tt.fails = 0),
-      eA.page === "home" && (__br.back = t),
+      eA.page === "home" && ((__br.back = t), (__br.kind = "page")),
       (tt.page = __pg));
     Gt.running
       ? Object.assign(tt, { on: !1, beats: 2, back: 0, hold: 0 })
@@ -46571,7 +46571,7 @@ const N4 = 2e3,
     tt.n++;
     const i = e.every > 1 && n > e.every ? e.every - 0.55 : 0.45;
     (__br.run = A > (n + i) * e.beat ? __br.run + 1 : 0),
-      __br.run >= 10 &&
+      __br.run >= (__br.kind === "rest" ? 6 : 10) &&
         __br.fine &&
         !ne &&
         !Ye.on &&
@@ -46684,15 +46684,15 @@ const N4 = 2e3,
       if ((me.n++, A > (me.beats + 0.45) * Qe.beat && me.late++, t < me.trial && me.late <= __most * Ad.late)) return;
       t < me.trial && Io(`stride: try cut, ${me.late} late of ${me.n}`);
       const e = me.late <= me.n * Ad.late;
-      e || (me.beats++, (__br.back = t), (__br.run = 0)), (me.fails = e ? 0 : Math.min(me.fails + 1, 3)), (me.next = t + Ad.after * 2 ** me.fails), (me.trial = 0);
+      e || (me.beats++, (__br.back = t), (__br.run = 0), (__br.kind = "try")), (me.fails = e ? 0 : Math.min(me.fails + 1, 3)), (me.next = t + Ad.after * 2 ** me.fails), (me.trial = 0);
       return;
     }
-    me.beats > Qe.every && t >= me.next && Vt.scale >= 1 && (me.beats--, Object.assign(me, { trial: t + Ad.trial, late: 0, n: 0, warm: 4 }));
+    me.beats > Qe.every && t >= me.next && Vt.scale >= 1 && !(__br.kind === "rest" && t - __br.back < 3e3) && (me.beats--, Object.assign(me, { trial: t + Ad.trial, late: 0, n: 0, warm: 4 }));
   },
   I4 = 2.5,
   Ye = { on: !1, quiet: 0, next: 0 },
   Ox = () => {
-    !ne && Ye.on && Ye.quiet > 5 && ((__br.back = performance.now()), (__br.run = 0)),
+    !ne && Ye.on && Ye.quiet > 5 && ((__br.back = performance.now()), (__br.run = 0), (__br.kind = "rest")),
       (id = performance.now()),
       (Ye.quiet = 0),
       (Ye.on = !1);
