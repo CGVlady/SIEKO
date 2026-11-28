@@ -45963,7 +45963,7 @@ const FC = () => {
 };
 rj(), oj();
 const ni = new dj(),
-  Os = ni ? new CC("V49.74", () => ni.report()) : null;
+  Os = ni ? new CC("V49.75", () => ni.report()) : null;
 ni && Os && ((ni.onTest = (A, t) => Os.test(A, t)), (ni.status = () => Os.status), Os.offline && (ni.copy = () => Os.copy()));
 const Jv = { scene: { n: 0 }, wall: { n: 0 } },
   _v = (A, t) => {
@@ -46562,11 +46562,11 @@ const N4 = 2e3,
         !Ye.on &&
         !Gt.running &&
         t - __br.back < 4e3 &&
-        n * e.beat > 1e3 / 30 - 1 &&
+        n * e.beat > 1e3 / 40 - 1 &&
         __br.fails < 2 &&
         t >= __br.next &&
         !__br.pending &&
-        ((__br.pending = t), (__br.why = `${__br.run} late in a row after the watch page`));
+        ((__br.pending = t), (__br.why = `${__br.run} late in a row after the watch page or a rest`));
     if (
       (A > (n + i) * e.beat && tt.late++,
       A > (n + Ps.beats) * e.beat && tt.plain++,
@@ -46605,7 +46605,7 @@ const N4 = 2e3,
       Io(
         `judged every ${n}: late ${tt.late}/${tt.n}, plain ${tt.plain}, past ${o.toFixed(2)}${f ? ", go" : ""}${u ? "" : ", slower rhythm"}${s ? ", floor" : ""}${qi ? ", busy" : ""}${nc ? "" : ", veil"}${he.on && !Zl() ? ", untouched" : ""}, runs ${tt.runs}`,
       );
-    !ne && !Ye.on && !Gt.running && Math.abs(n * e.beat - 1e3 / 30) < 1 && tt.late <= tt.n * 0.15 && (__br.fine = !0);
+    !ne && !Ye.on && !Gt.running && n * e.beat > 1e3 / 40 - 1 && tt.late <= tt.n * 0.15 && (__br.fine = !0);
     if (__br.fine && !ne && !Ye.on && !Gt.running && n * e.beat > 1e3 / 30 - 1 && tt.late >= tt.n * 0.9 && o >= 0.9) {
       ++__br.stuck >= 2 &&
         !__br.told &&
@@ -46677,7 +46677,10 @@ const N4 = 2e3,
   I4 = 2.5,
   Ye = { on: !1, quiet: 0, next: 0 },
   Ox = () => {
-    (id = performance.now()), (Ye.quiet = 0), (Ye.on = !1);
+    !ne && Ye.on && Ye.quiet > 5 && ((__br.back = performance.now()), (__br.run = 0)),
+      (id = performance.now()),
+      (Ye.quiet = 0),
+      (Ye.on = !1);
   };
 for (const A of ["pointermove", "pointerdown", "wheel", "touchstart", "keydown", "scroll"])
   window.addEventListener(A, Ox, { passive: !0, capture: !0 });

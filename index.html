@@ -45601,11 +45601,11 @@ const XV = 2e3,
         !je.on &&
         !Lt.running &&
         t - __br.back < 4e3 &&
-        n * e.beat > 1e3 / 30 - 1 &&
+        n * e.beat > 1e3 / 40 - 1 &&
         __br.fails < 2 &&
         t >= __br.next &&
         !__br.pending &&
-        ((__br.pending = t), (__br.why = `${__br.run} late in a row after the watch page`));
+        ((__br.pending = t), (__br.why = `${__br.run} late in a row after the watch page or a rest`));
     if (
       (s > (n + i) * e.beat && $.late++,
       s > (n + br.beats) * e.beat && $.plain++,
@@ -45644,7 +45644,7 @@ const XV = 2e3,
       Ro(
         `judged every ${n}: late ${$.late}/${$.n}, plain ${$.plain}, past ${o.toFixed(2)}${p ? ", go" : ""}${u ? "" : ", slower rhythm"}${r ? ", floor" : ""}${Li ? ", busy" : ""}${tc ? "" : ", veil"}${fe.on && !Bh() ? ", untouched" : ""}, runs ${$.runs}`,
       );
-    !ne && !je.on && !Lt.running && Math.abs(n * e.beat - 1e3 / 30) < 1 && $.late <= $.n * 0.15 && (__br.fine = !0);
+    !ne && !je.on && !Lt.running && n * e.beat > 1e3 / 40 - 1 && $.late <= $.n * 0.15 && (__br.fine = !0);
     if (__br.fine && !ne && !je.on && !Lt.running && n * e.beat > 1e3 / 30 - 1 && $.late >= $.n * 0.9 && o >= 0.9) {
       ++__br.stuck >= 2 &&
         !__br.told &&
@@ -45715,7 +45715,10 @@ const XV = 2e3,
   _V = 2.5,
   je = { on: !1, quiet: 0, next: 0 },
   hv = () => {
-    (Xf = performance.now()), (je.quiet = 0), (je.on = !1);
+    !ne && je.on && je.quiet > 5 && ((__br.back = performance.now()), (__br.run = 0)),
+      (Xf = performance.now()),
+      (je.quiet = 0),
+      (je.on = !1);
   };
 for (const s of ["pointermove", "pointerdown", "wheel", "touchstart", "keydown", "scroll"])
   window.addEventListener(s, hv, { passive: !0, capture: !0 });
