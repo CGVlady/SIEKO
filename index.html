@@ -37503,9 +37503,20 @@ class KI {
         g.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(new XMLSerializer().serializeToString(A));
         try {
           await g.decode();
-        } catch {
-          t.drawing = !1;
-          return;
+        } catch (__e) {
+          const __ok = g.complete
+            ? g.naturalWidth > 0
+            : await new Promise((y) => {
+                g.addEventListener("load", () => y(!0), { once: !0 }),
+                  g.addEventListener("error", () => y(!1), { once: !0 }),
+                  setTimeout(() => y(g.complete && g.naturalWidth > 0), 3e3);
+              });
+          (this.__refused = (this.__refused || 0) + 1) <= 3 &&
+            Ro(`text: picture decode refused (${(__e && __e.name) || "?"}), ${__ok ? "drawn after its load" : "not loaded"}`);
+          if (!__ok) {
+            t.drawing = !1;
+            return;
+          }
         }
         c.drawImage(g, n + p.left - h.left, n + p.top - h.top, p.width, p.height);
       }
