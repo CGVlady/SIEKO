@@ -45963,7 +45963,7 @@ const FC = () => {
 };
 rj(), oj();
 const ni = new dj(),
-  Os = ni ? new CC("V49.73", () => ni.report()) : null;
+  Os = ni ? new CC("V49.74", () => ni.report()) : null;
 ni && Os && ((ni.onTest = (A, t) => Os.test(A, t)), (ni.status = () => Os.status), Os.offline && (ni.copy = () => Os.copy()));
 const Jv = { scene: { n: 0 }, wall: { n: 0 } },
   _v = (A, t) => {
@@ -46577,7 +46577,18 @@ const N4 = 2e3,
         (tt.tryN++, A > (1 + Ps.beats) * e.beat && tt.tryPlain++, (tt.trySum += Math.min(A, 3 * e.beat))),
       (tt.sum += Math.min(A, (2 * e.every + 1) * e.beat)),
       (tt.mean += Math.min(A, (n + 1) * e.beat)),
-      t - tt.at < 1e3)
+      t - tt.at < 1e3 &&
+        !(
+          !ne &&
+          !tt.on &&
+          !Ye.on &&
+          t - tt.left < 1500 &&
+          n === tt.leftEvery &&
+          n <= e.every &&
+          tt.n >= 14 &&
+          tt.late >= tt.n - 1 &&
+          (Io(`try ${Math.round(1e3 / (n * e.beat))}: ${tt.late} of ${tt.n} late, judged at once`), !0)
+        ))
     )
       return;
     const s = Vt.scale <= _A() + 0.02 || Vt.futileNow,

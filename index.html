@@ -45616,7 +45616,18 @@ const XV = 2e3,
         ($.tryN++, s > (1 + br.beats) * e.beat && $.tryPlain++, ($.trySum += Math.min(s, 3 * e.beat))),
       ($.sum += Math.min(s, (2 * e.every + 1) * e.beat)),
       ($.mean += Math.min(s, (n + 1) * e.beat)),
-      t - $.at < 1e3)
+      t - $.at < 1e3 &&
+        !(
+          !ne &&
+          !$.on &&
+          !je.on &&
+          t - $.left < 1500 &&
+          n === $.leftEvery &&
+          n <= e.every &&
+          $.n >= 14 &&
+          $.late >= $.n - 1 &&
+          (Ro(`try ${Math.round(1e3 / (n * e.beat))}: ${$.late} of ${$.n} late, judged at once`), !0)
+        ))
     )
       return;
     const r = Zt.scale <= Js() + 0.02 || Zt.futileNow,
